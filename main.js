@@ -5,6 +5,9 @@ var ctx = undefined;
 var canvas = undefined;
 var building_selected = undefined;
 
+var client = new Colyseus.Client('ws://localhost:2567');
+let allRooms = [];
+
 var terrain_tilemap = new Image();
 var mouse = {
 	x : 0,
@@ -15,7 +18,7 @@ var canvasdim = {
 	height : 480
 }
 
-function load() {
+async function load() {
 	canvas = document.getElementById('main-canvas');
 	ctx = canvas.getContext('2d');
 	ctx.imageSmoothingEnabled = false;
@@ -38,6 +41,28 @@ function load() {
 	canvas.onkeypressed = canvasKey;
 	canvas.onclick = canvasClick;
 	canvas.onmousemove = canvasMouseMove;
+
+	const lobby = await client.joinOrCreate("lobby");
+
+	lobby.onMessage("rooms", (rooms) => {
+		allRooms = rooms;
+		console.log(allRooms)
+	});
+
+	lobby.onMessage("+", ([roomId, room]) => {
+		const roomIndex = allRooms.findIndex((room) => room.roomId === roomId);
+		if (roomIndex !== -1) {
+			allRooms[roomIndex] = room;
+		
+		} else {
+			allRooms.push(room);
+		}
+	});
+	
+	lobby.onMessage("-", (roomId) => {
+	allRooms = allRooms.filter((room) => room.roomId !== roomId);
+	});
+
 
 }
 
@@ -99,6 +124,7 @@ function canvasClick(evt) {
 	var iso = utils.screen2iso(mouse.x, mouse.y);
 	var tool = tools[current_tool];
 	iso.x = Math.floor(iso.x);
+	client.joinOrCreate('game_room');
 	iso.y = Math.floor(iso.y);
 	if (building_selected === undefined &&
 	    iso.x >= 0 && iso.x < settings.MAP_SIZE && iso.y >= 0 && iso.y < settings.MAP_SIZE) {
