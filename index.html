@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<meta charset='UTF-8'>
+		<title>FreeTown</title>
+		<script src='Tile.js'></script>
+		<script src='Building.js'></script>
+		<script src='Tool.js'></script>
+		<script src='utils.js'></script>
+		<script src='Map.js'></script>
+		<script src='Camera.js'></script>
+		<script src='main.js'></script>
+		<link href='style.css' type='text/css' rel='stylesheet'/>
+		</head>
+	<body onload='load()'>
+		<div id='debug-data'>
+			<p>Mouse isometric coordinates: <span id='iso-coords'></span></p>
+			<p>Camera coordinates: <span id='camera-coords'></span></p>
+			<p>Workers: <span id='workers-free'></span>/<span id='workers-total'></span></p>
+		</div>
+		<div id='buttons-area'>
+			<button onclick='current_tool = "house";'>House</button>
+			<button onclick='current_tool = "road";'>Road</button>
+			<button onclick='current_tool = "chimney";'>Chimney</button>
+		</area>
+		<canvas id='main-canvas' width=640 height=480>
+		</canvas>
+	</body>
+</html>
