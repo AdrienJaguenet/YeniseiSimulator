@@ -1,29 +1,27 @@
 import { Room, Client } from "colyseus";
-import consola from 'consola';
-import { WorldState } from './WorldState';
+import { RoomState } from "./RoomState";
+import { Building, EBuildingType } from './WorldState'
 
-export class GameRoom extends Room<WorldState> {
+export class GameRoom extends Room<RoomState> {
 
-  maxClients = 1
+  maxClients = 3
 
   onCreate (options: any) {
-    consola.log('room ' + this.roomId + ' created')
-
+    this.setState(new RoomState());
+    this.setMetadata({ name: "Default game room" });
     this.onMessage("type", (client, message) => {
       // handle "type" message
     });
-
-	this.setState(new WorldState);
-
   }
 
   onJoin (client: Client, options: any) {
-    consola.log('client ' + client.id + ' joined room ' + this.roomId)
+    console.log('client ' + client.id + ' joined room ' + this.roomId)
+    // this.state.world.buildings.push(new Building(EBuildingType.HOUSE, 1, 1));
     // this.lock();
   }
 
   onLeave (client: Client, consented: boolean) {
-    consola.log('client ' + client.id + ' left room ' + this.roomId)
+    console.log('client ' + client.id + ' left room ' + this.roomId)
   }
 
   onDispose() {
