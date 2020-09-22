@@ -3,6 +3,8 @@ import consola from 'consola';
 
 export class GameRoom extends Room {
 
+  maxClients = 1
+
   onCreate (options: any) {
     consola.log('room ' + this.roomId + ' created')
 
@@ -13,12 +15,12 @@ export class GameRoom extends Room {
   }
 
   onJoin (client: Client, options: any) {
-    consola.log('client ' + client.id + 'joined room ' + this.roomId)
+    consola.log('client ' + client.id + ' joined room ' + this.roomId)
     // this.lock();
   }
 
   onLeave (client: Client, consented: boolean) {
-    consola.log('client ' + client.id + 'left room ' + this.roomId)
+    consola.log('client ' + client.id + ' left room ' + this.roomId)
   }
 
   onDispose() {

@@ -8,11 +8,12 @@ import { monitor } from "@colyseus/monitor";
 import { GameRoom } from "./GameRoom";
 import { LobbyRoom } from "colyseus";
 
-const port = Number(process.env.PORT || 2567);
+const port = Number(process.env.PORT || 3000);
 const app = express()
 
 // app.use(cors());
 app.use(express.json())
+app.use(express.static('client'))
 
 const server = http.createServer(app);
 const gameServer = new Server({

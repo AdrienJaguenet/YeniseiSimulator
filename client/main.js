@@ -5,7 +5,7 @@ var ctx = undefined;
 var canvas = undefined;
 var building_selected = undefined;
 
-var client = new Colyseus.Client('ws://localhost:2567');
+var client = new Colyseus.Client('ws://localhost:3000');
 let allRooms = [];
 
 var terrain_tilemap = new Image();
