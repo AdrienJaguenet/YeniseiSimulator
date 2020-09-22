@@ -4,17 +4,17 @@ function buildTool(name) {
 	return {
 		hoverTile : name,
 		use : function(i, j) {
-			var tile = map.GetTile(i, j);
+			var tile = terrain.GetTile(i, j);
 			tile.building = new Building(name, i, j);
-			map.buildings.push(tile.building);
+			terrain.buildings.push(tile.building);
 			sfx.build.play();
 
 		},
 		canUse : function(i, j) {
-			var tile = map.GetTile(i, j);
+			var tile = terrain.GetTile(i, j);
 			return (tile.type == 'grass' || tile.type == 'trees') // check terrain type
 			   && (resources.workers - resources.used_workers > 0) // enough workers
-			   && map.IsAdjacentTo(i, j, (t) => { return t.type == 'road' }) // must be next to a road
+			   && terrain.IsAdjacentTo(i, j, (t) => { return t.type == 'road' }) // must be next to a road
 			   && tile.building === undefined // cannot build over an existing building
 		}
 	}
@@ -37,8 +37,8 @@ var tools = {
 	'info' : {
 		hoverTile : 'tile_select',
 		use : function(i, j)  {
-		if (map.GetTile(i, j).building) {
-				building_selected = map.GetTile(i, j).building
+		if (terrain.GetTile(i, j).building) {
+				building_selected = terrain.GetTile(i, j).building
 			} else {
 				building_selected = null
 			}
@@ -50,7 +50,7 @@ var tools = {
 	'destroy' : {
 		hoverTile : 'tile_select',
 		use : function(i, j) {
-			var tile = map.GetTile(i, j);
+			var tile = terrain.GetTile(i, j);
 			if (tile.building) {
 				tile.building.Destroy();
 				tile.building = null;
@@ -65,13 +65,13 @@ var tools = {
 }
 
 tools['road'].use = function(i, j) {
-	var tile = map.GetTile(i, j)
+	var tile = terrain.GetTile(i, j)
 	tile.type = 'road'
 	sfx.build.play()
 }
 
 tools['road'].canUse = function(i, j) {
-	var tile = map.GetTile(i, j);
+	var tile = terrain.GetTile(i, j);
 	return (tile.type == 'grass' || tile.type == 'trees'); // check terrain type
 }
 

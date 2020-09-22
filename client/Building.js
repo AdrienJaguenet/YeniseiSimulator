@@ -6,7 +6,7 @@ class Building
 		var tiles = {}
 		for (var x=this.x-radius; x < this.x+radius; ++x) {
 			for (var y=this.y-radius; y < this.y+radius; ++y) {
-				var ftile = map.GetTile(x, y)
+				var ftile = terrain.GetTile(x, y)
 				if (ftile != null && fn(ftile)) {
 					table.insert(tiles, ftile)
 				}

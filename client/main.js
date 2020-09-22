@@ -1,6 +1,6 @@
 var gfx = undefined;
 var sfx = undefined;
-var map = undefined;
+var terrain = undefined;
 var ctx = undefined;
 var canvas = undefined;
 var building_selected = undefined;
@@ -31,8 +31,8 @@ async function load() {
 		err : newAudio('resources/sfx/error.wav')
 	};
 	loadBuildings();
-	map = new Map(settings.MAP_SIZE)
-	map.Generate();
+	terrain = new Terrain(settings.MAP_SIZE)
+	terrain.Generate();
 
 	setInterval(update, 20);
 	setInterval(draw, 20);
@@ -102,7 +102,7 @@ function newAudio(src) {
 function update(dt) {
 	dt = 0.02;
 	utils.updateDate(dt)
-	map.Update(dt)
+	terrain.Update(dt)
 	camera.Update(dt)
 }
 
@@ -116,7 +116,7 @@ function draw() {
 	document.getElementById('camera-coords').innerHTML = camera.x+', '+camera.y;
 	document.getElementById('workers-free').innerHTML = ''+resources.workers - resources.used_workers;
 	document.getElementById('workers-total').innerHTML = ''+resources.workers;
-	map.Draw(hover_coords);
+	terrain.Draw(hover_coords);
 }
 
 function canvasMouseMove(evt) {

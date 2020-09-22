@@ -1,4 +1,4 @@
-class Map {
+class Terrain {
 	constructor(size) {
 		this.size = size,
 		this.tiles = new Array(size),

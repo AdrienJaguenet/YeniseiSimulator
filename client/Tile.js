@@ -121,7 +121,7 @@ class Tile
 		var obj = gfx.tiles[this.type].layers[layer]
 
 		if (obj && obj.oriented) {
-			var c = map.GetMooreNeighbourhood(i, j);
+			var c = terrain.GetMooreNeighbourhood(i, j);
 			var north = c[0], south = c[1], west = c[2], east = c[3];
 			var str = '';
 
