@@ -60,10 +60,15 @@ async function load() {
 	});
 	
 	lobby.onMessage("-", (roomId) => {
-	allRooms = allRooms.filter((room) => room.roomId !== roomId);
+		allRooms = allRooms.filter((room) => room.roomId !== roomId);
 	});
 
 
+	client.joinOrCreate('game_room').then(room => {
+		document.getElementById('room-id').innerHTML = room;	
+	}).catch(e => {
+		document.getElementById('room-id').innerHTML = 'NONE ('+e+')';	
+	});
 }
 
 
@@ -124,7 +129,6 @@ function canvasClick(evt) {
 	var iso = utils.screen2iso(mouse.x, mouse.y);
 	var tool = tools[current_tool];
 	iso.x = Math.floor(iso.x);
-	client.joinOrCreate('game_room');
 	iso.y = Math.floor(iso.y);
 	if (building_selected === undefined &&
 	    iso.x >= 0 && iso.x < settings.MAP_SIZE && iso.y >= 0 && iso.y < settings.MAP_SIZE) {

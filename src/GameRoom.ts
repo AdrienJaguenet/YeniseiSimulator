@@ -1,7 +1,8 @@
 import { Room, Client } from "colyseus";
 import consola from 'consola';
+import { WorldState } from './WorldState';
 
-export class GameRoom extends Room {
+export class GameRoom extends Room<WorldState> {
 
   maxClients = 1
 
@@ -11,6 +12,8 @@ export class GameRoom extends Room {
     this.onMessage("type", (client, message) => {
       // handle "type" message
     });
+
+	this.setState(new WorldState);
 
   }
 
