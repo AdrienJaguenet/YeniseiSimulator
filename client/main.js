@@ -41,16 +41,14 @@ async function load() {
 	canvas.onclick = canvasClick;
 	canvas.onmousemove = canvasMouseMove;
 
-	client.joinOrCreate('game_room').then(room => {
-		console.log(room)
-		document.getElementById('room-id').innerHTML = room.id;
-		room.onStateChange.once((state) => {
-			// This is where we get the initial full state ready
-			terrain.FromState(state)
-		});
-	}).catch(e => {
-		document.getElementById('room-id').innerHTML = 'NONE ('+e+')';	
+	const room = await client.joinOrCreate('game_room', {nickname: "test123"})
+	console.log(room)
+	document.getElementById('room-id').innerHTML = room.id;
+	room.onStateChange.once((state) => {
+		// This is where we get the initial full state ready
+		terrain.FromState(state)
 	});
+	
 }
 
 

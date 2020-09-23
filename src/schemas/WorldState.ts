@@ -11,7 +11,7 @@ export enum EBuildingType {
 	CHIMNEY = 'chimney'
 }
 
-class Tile extends Schema {
+export class Tile extends Schema {
 	@type('number') x: number;
 	@type('number') y : number;
 	@type('string') type: string;
@@ -47,14 +47,10 @@ export class WorldState extends Schema {
 
 	@type([Building])
 	buildings = new ArraySchema<Building>();
-
+	
 	constructor () {
 		super();
-		for (var i = 0; i < this.size; ++i) {
-			for (var j = 0; j < this.size; ++j) {
-				this.tiles.push(new Tile(ETerrainType.GRASS, i, j));
-			}
-		}
+		
 	}	
 }
 
