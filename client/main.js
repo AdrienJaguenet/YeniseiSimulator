@@ -41,31 +41,13 @@ async function load() {
 	canvas.onclick = canvasClick;
 	canvas.onmousemove = canvasMouseMove;
 
-	const lobby = await client.joinOrCreate("lobby");
-
-	lobby.onMessage("rooms", (rooms) => {
-		allRooms = rooms;
-		console.log(allRooms)
-	});
-
-	lobby.onMessage("+", ([roomId, room]) => {
-		const roomIndex = allRooms.findIndex((room) => room.roomId === roomId);
-		if (roomIndex !== -1) {
-			allRooms[roomIndex] = room;
-		
-		} else {
-			allRooms.push(room);
-		}
-	});
-	
-	lobby.onMessage("-", (roomId) => {
-		allRooms = allRooms.filter((room) => room.roomId !== roomId);
-	});
-
-
 	client.joinOrCreate('game_room').then(room => {
+		console.log(room)
 		document.getElementById('room-id').innerHTML = room.id;
-		terrain.FromState(room.state);
+		room.onStateChange.once((state) => {
+			// This is where we get the initial full state ready
+			terrain.FromState(state)
+		});
 	}).catch(e => {
 		document.getElementById('room-id').innerHTML = 'NONE ('+e+')';	
 	});
