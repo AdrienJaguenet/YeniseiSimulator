@@ -31,8 +31,7 @@ async function load() {
 		err : newAudio('resources/sfx/error.wav')
 	};
 	loadBuildings();
-	terrain = new Terrain(settings.MAP_SIZE)
-	terrain.Generate();
+	terrain = new Terrain()
 
 	setInterval(update, 20);
 	setInterval(draw, 20);
@@ -65,7 +64,8 @@ async function load() {
 
 
 	client.joinOrCreate('game_room').then(room => {
-		document.getElementById('room-id').innerHTML = room;	
+		document.getElementById('room-id').innerHTML = room.id;
+		terrain.FromState(room.state);
 	}).catch(e => {
 		document.getElementById('room-id').innerHTML = 'NONE ('+e+')';	
 	});

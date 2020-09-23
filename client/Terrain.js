@@ -1,30 +1,24 @@
 class Terrain {
-	constructor(size) {
-		this.size = size,
-		this.tiles = new Array(size),
+	constructor() {
+		this.size = 0,
+		this.tiles = undefined,
 		this.buildings = []
 	}
 
-	FromServer(host, port) {
-		var response = {}
-		var url = 'http://'+host+':'+port+'/map'
-		console.log(url)
-	}
-
-	Generate() {
-		//this.FromServer('localhost', 3000)
-		for (var i = 0; i < this.size; ++i) {
-			this.tiles[i] = new Array(this.size);
-			for (var j = 0; j < this.size; ++j) {
-				this.tiles[i][j] = new Tile('grass');
-			}
+	FromState(state) {
+		this.size = state.world.size;
+		console.log(state);
+		console.log('Got state size '+state.world.size);
+		console.log('Tiles in state: '+state.world.tiles.length);
+		this.tiles = new Array(this.size * this.size);
+		for (var i = 0; i < this.size * this.size; ++i) {
+			this.tiles[i] = new Tile(state.world.tiles[i].type);
 		}
 	}
 
 	GetTile(x, y) {
-		var row = this.tiles[x]
-		if (row !== undefined) {
-			return this.tiles[x][y];
+		if (x >= 0 && x < this.size && y >= 0 && y < this.size) {
+			return this.tiles[x * this.size + y];
 		} else {
 			return undefined;
 		}
